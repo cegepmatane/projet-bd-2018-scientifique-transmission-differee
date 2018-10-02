@@ -1,30 +1,30 @@
-from tkinter import *
+import tkinter as tk
 import os
 import bluetooth
 
-class Interface(Frame):
+class Interface(tk.Frame):
 
-    """Notre fenêtre principale
-    Tous les widgets sont stockés comme attributs de cette fenêtre."""
+    """Notre fenetre principale
+    Tous les widgets sont stockes comme attributs de cette fenetre."""
 
 
     def __init__(self, fenetre, **kwargs):
-        Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
-        self.pack(fill=BOTH)
+        tk.Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
+        self.pack(fill=tk.BOTH)
         self.nb_clic = 0
 
-        # Création de nos widgets
-        self.message = Label(self, text="Vous n'etes connecte a aucune bouee.")
+        # Creation de nos widgets
+        self.message = tk.Label(self, text="Vous n'etes connecte a aucune bouee.")
         self.message.pack()
 
-        self.boutonConnexion = tk.Button(root, text="connexion", command = self.connexionServeur)
-        self.boutonConnexion.grid(row=0,column=0)
+        self.boutonConnexion = tk.Button(self, text="connexion", command = self.connexionServeur)
+        self.boutonConnexion.pack()
 
-        self.boutonTelechargement = tk.Button(root, text="Telechargement")
-        self.boutonTelechargement.grid(row=1,column=0)
+        self.boutonTelechargement = tk.Button(self, text="Telechargement")
+        self.boutonTelechargement.pack()
 
-        self.boutonTeleversement = tk.Button(root, text="Televersement")
-        self.boutonTeleversement.grid(row=2,column=0)
+        self.boutonTeleversement = tk.Button(self, text="Televersement")
+        self.boutonTeleversement.pack()
 
 
     def connexionServeur(self):
@@ -35,12 +35,12 @@ class Interface(Frame):
 
         for addr, name in nearby_devices:
             print (" %s - %s" % (addr, name))
-            self.message["text"] = "Bouée détectee : {} ".format(addr)
+            self.message["text"] = "Bouee detectee : {} ".format(addr)
 
         os.system("python bluetooth.py client")
 
 
-fenetre = Tk()
+fenetre = tk.Tk()
 interface = Interface(fenetre)
 
 interface.mainloop()
