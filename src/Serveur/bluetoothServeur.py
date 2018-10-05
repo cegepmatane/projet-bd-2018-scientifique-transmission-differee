@@ -1,17 +1,16 @@
 import bluetooth
 import Serveur
-import connexionNodeJS
 import sys
 
 
-class Bluetooth(object):
+class Bluetooth:
     # lancement fichier python pour commencer la connexion bluetooth du client
-    def StartBluetoothServeur():
+    def StartBluetoothServeur(self):
         Serveur.connexionAuClient()
 
-    def __init__ == 'main':
+    def __init__ (self):
         cmd = sys.argv[1]
         if (cmd == 'serveur'):
-            StartBluetoothClient()
+            self.StartBluetoothServeur()
         else :
             print ("Bluetooth")

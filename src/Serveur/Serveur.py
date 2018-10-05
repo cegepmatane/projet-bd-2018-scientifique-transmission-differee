@@ -1,13 +1,6 @@
 import bluetooth
 import donneeDAO
 
-# Preparation Raspberry Pi
-# sudo apt-get install python-pip
-# sudo pip install pybluez
-# sudo pip installl wakeonlan
-# commande :  "hciconfig" pour recuperer l'adresse mac du client
-# passer le script en Boot
-
 
 def rechercheAppareil():
     ## recherche de périphérique bluetooth environnent
@@ -34,12 +27,11 @@ def rechercheAppareil():
 
 def connexionAuClient():
 
-    port = 1250   # port pour la connexion en Bluetooth
+    port = 1   # port pour la connexion en Bluetooth
     ## creer un socket qui ecoute si il y a des connexions acceptee
     serveur_sock = bluetooth.BluetoothServerSocket(bluetooth.RFCOMM)
-    # serveur_sock.connect(bluetooth.find_service(address = addr), port)
 
-    ## parcours l'ensemble des appareils detecte pour demander une connexion
+    ## parcours l'ensemble des appareils detectes pour demander une connexion
     for appareil in rechercheAppareil():
         serveur_sock.connect((appareil, port))
         ## envoie les donnees enregistrer dans la BDD
