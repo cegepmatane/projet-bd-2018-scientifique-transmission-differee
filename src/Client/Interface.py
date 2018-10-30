@@ -16,7 +16,7 @@ class Interface(tk.Frame):
         self.nb_clic = 0
 
         # Creation de nos widgets
-        self.boutonConnexion = tk.Button(self, text="connexion", command = self.connexionServeur)
+        self.boutonConnexion = tk.Button(self, text="connexion", command = self.connexionBouee)
         self.boutonConnexion.pack()
 
         self.boutonTelechargement = tk.Button(self, text="Telechargement", command = self.recuperationDonnee, state="disabled")
@@ -27,17 +27,17 @@ class Interface(tk.Frame):
 
 
 
-    def connexionServeur(self):
+    def connexionBouee(self):
         """Change la valeur du label message pour afficher les bouees a proimite
         permet de ce connecter a la bouee souhaite"""
 
         """Amelioration possible en permettant de selectionner la bouee souhaiter a proximite si il en existe plusieurs """
 
-        # permet d'acceder au bouton de telechargement ou le televersement
-        adresseServeur = Client.connexionAuServeur()
-        print (adresseServeur)
-        if adresseServeur != "" :  # si il y a une bouee a proximite
+        ListeAdresseBouee = Client.connexionBouee()
+        #print (ListeAdresseBouee)
+        if len(ListeAdresseBouee)!= 0 :  # si il y a appareil a proximite permet d'acceder au bouton de telechargement ou le televersement
             self.boutonTelechargement.config(state="normal")
+            
 
 
     def recuperationDonnee(self):

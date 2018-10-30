@@ -1,27 +1,22 @@
-import bluetooth
+from bluetooth import *
 import donneeDAO
 
 
 adresseServeur = ["",""]  # enregistrement des toutes les adresses MAC du recepteur bluetooth de toutes les bouees existante
 
 
-def connexionAuServeur():
-    """ la connexion repose sur le fait de verifier si il existe une bouee (pour le moment on ne prend pas en
-    compte la possibiltie qu'il puisse en avoir plusieur) """
+def connexionBouee():
 
-    nearby_devices = bluetooth.discover_devices(lookup_names = True, flush_cache = True, duration = 20)
+    print ("performing inquiry...")
 
-    boueeProximite = ""
-    for addr, name in nearby_devices:
-        print (" %s - %s" % (addr, name))
+    nearby_devices = discover_devices(lookup_names = True)
 
-        # boucle verifiant que l'appareil detecte est bien une bouee
-        for i in adresseServeur:
-            if addr == i :
-                boueeProximite = addr
+    print ("found %d devices" % len(nearby_devices))
 
-    # retourne l'addresse de la bouee a laquel nous pouvons nous connecter
-    return boueeProximite
+    for name, addr in nearby_devices:
+         print (" %s - %s" % (addr, name))
+
+    return nearby_devices
 
 
 
@@ -33,7 +28,7 @@ def recuperationDonnee():
     size = 1024
 
     # # recupere l'adresse de la bouee a proximite pour se connecter et recuperer les donnees
-    adresseServeur = connexionAuServeur()
+    adresseServeur = connexionBouee()
 
     client_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)  ## RFCOMM type de socket pour le type de socket bluetooth
     client_sock.bind((adresseServeur, port))
