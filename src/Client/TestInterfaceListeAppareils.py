@@ -2,6 +2,8 @@ from tkinter import *
 from bluetooth import *
 from subprocess import *
 import bluetooth
+from tkinter import messagebox
+from tkinter import Label
 global ListeAppareils
 global listeAdresse
 global fenetreListeAppareils
@@ -27,11 +29,20 @@ def afficherListeAppareils():
 
     for ligne in range(len(ListeAppareils)):
         for colonne in range(2):
-            label = Label(fenetreListeAppareils, text='[%s]' % ', '.join(map(str, ListeAppareils[ligne])),borderwidth=1).grid(row=ligne, column=1)
-            Button(fenetreListeAppareils, text='Se connecter', borderwidth=1, command= lambda address = ligne: seConnecter(listeAdresse[address])).grid(row=ligne, column=2)
-    
+            Label(fenetreListeAppareils, text='[%s]' % ', '.join(map(str, ListeAppareils[ligne])),borderwidth=1).grid(row=ligne, column=1)
+            Button(fenetreListeAppareils, text='Se connecter',command=lambda address=ligne: seConnecter(listeAdresse[address])).grid(row=ligne, column=2)
+    fenetreListeAppareils.protocol("WM_DELETE_WINDOW", on_closing)
     fenetreListeAppareils.mainloop()
+
 #--------------------------------------------------------------------------#
+
+def on_closing():
+    if messagebox.askokcancel("Quitter","Fermer la liste des appareils ?"):
+        fenetreListeAppareils.destroy()
+        boutonConnexion.config(state="disabled")
+
+#-------------------------------------------------------------------------------#
+
 
 def listerAppareils():
     global ListeAppareils
@@ -56,18 +67,20 @@ def listerAppareils():
 
 def seConnecter(addresse):
     global fenetreListeAppareils
+    fenetreListeAppareils.destroy()
 
     print(addresse)
-    port = 1
+    port = 3
 
-    sock=bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock = BluetoothSocket(RFCOMM)
     sock.connect((addresse, port))
-
+    print("coucou")
     sock.send("hello!!")
 
     sock.close()
+    
 
-    fenetreListeAppareils.destroy()
+    
 
 
 
