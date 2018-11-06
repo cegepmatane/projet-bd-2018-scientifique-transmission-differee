@@ -68,6 +68,7 @@ def listerAppareils():
 def seConnecter(addresse):
     global fenetreListeAppareils
     fenetreListeAppareils.destroy()
+    boutonConnexion.config(state="disabled")
 
     print(addresse)
     port = 3
