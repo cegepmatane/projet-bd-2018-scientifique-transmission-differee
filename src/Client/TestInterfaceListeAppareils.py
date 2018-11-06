@@ -62,13 +62,20 @@ def listerAppareils():
 
     for name, addr in ListeAppareils:
        listeAdresse.append(name)
-    
+
+    print('Liste adresses :', listeAdresse)    
     boutonConnexion.config(state="normal")
 
+#----------------------------------------------------------------------#
 def seConnecter(addresse):
     global fenetreListeAppareils
+    global listeAdresse
+
+    listeAdresse.clear()
+    print('Liste adresses :', listeAdresse)  
+    
     fenetreListeAppareils.destroy()
-    boutonConnexion.config(state="disabled")
+    boutonConnexion.config(state="disabled")   
 
     print(addresse)
     port = 3
@@ -79,11 +86,7 @@ def seConnecter(addresse):
     sock.send("hello!!")
 
     sock.close()
-    
-
-    
-
-
+#----------------------------------------------------------------------#
 
 
 #print('[%s]' % ', '.join(map(str, listeAdresse)))
