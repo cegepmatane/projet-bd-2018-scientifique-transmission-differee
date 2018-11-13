@@ -9,6 +9,7 @@ class Interface(tk.Frame):
 
     connexion = False
     adresseServeur = ""
+    LANGUAGE = locale.getdefaultlocale()[0]
 
     def __init__(self, fenetre, **kwargs):
         tk.Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
@@ -16,13 +17,13 @@ class Interface(tk.Frame):
         self.nb_clic = 0
 
         # Creation de nos widgets
-        self.boutonConnexion = tk.Button(self, text="connexion", command = self.connexionBouee)
+        self.boutonConnexion = tk.Button(self, text=_("Connexion"), command = self.connexionBouee)
         self.boutonConnexion.pack()
 
-        self.boutonTelechargement = tk.Button(self, text="Telechargement", command = self.recuperationDonnee, state="disabled")
+        self.boutonTelechargement = tk.Button(self, text=_("Telechargement"), command = self.recuperationDonnee, state="disabled")
         self.boutonTelechargement.pack()
 
-        self.boutonTeleversement = tk.Button(self, text="Televersement", command = self.envoieDonnee, state="disabled")
+        self.boutonTeleversement = tk.Button(self, text=_("Televersement"), command = self.envoieDonnee, state="disabled")
         self.boutonTeleversement.pack()
 
 
@@ -49,6 +50,21 @@ class Interface(tk.Frame):
         """Envoie les donnees au serveur par internet pour le moment non operationnel, il faut d'abord verifier si
         notre base donnee possede des donnees  et si on peut se connecter au serveur"""
         connexionNodeJS.on_send()
+
+
+    def _(s):
+        spanishStrings = {'Connexion': 'Conexión', 'Telechargement': 'Descargar', 'Televersement': 'Subir'}
+        englishStrings = {'Connexion': 'Connection', 'Telechargement': 'Download', 'Televersement': 'Uploading'}
+        germanStrings = {'Connexion': 'Verbindung', 'Telechargement': 'Herunterladen', 'Televersement': 'Hochladen'}
+
+        if LANGUAGE == 'French':
+            return s
+        if LANGUAGE == 'Spanish':
+            return spanishStrings[s]
+        if LANGUAGE == 'English':
+            return englishStrings[s]
+        if LANGUAGE == 'German':
+            return germanStrings[s]
 
 
 
