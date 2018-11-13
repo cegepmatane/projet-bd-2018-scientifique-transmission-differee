@@ -56,7 +56,7 @@ class Interface(tk.Frame):
     def _(self, s):
 
         spanishStrings = {'Connection': 'Conexión', 'Download': 'Descargar', 'Uploading': 'Subir'}
-        frenchStrings = {'Connection': 'Connection', 'Download': 'Telechargement', 'Uploading': 'Televersement'}
+        frenchStrings = {'Connection': 'Connexion', 'Download': 'Telechargement', 'Uploading': 'Televersement'}
         germanStrings = {'Connection': 'Verbindung', 'Download': 'Herunterladen', 'Uploading': 'Hochladen'}
 
         if self.LANGAGE == 'en':

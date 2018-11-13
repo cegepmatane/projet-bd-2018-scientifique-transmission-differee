@@ -1,0 +1,31 @@
+Installation:
+    Verifier que ca soit python > 3 (python --version)
+        Si ce nest pas le cas
+            sudo apt install python3.x # x etant la version desiree
+
+    installer pip3
+        sudo apt install python3-pip
+
+    simplejson
+        pip3 install simplejson
+
+    socketio
+        pip3 install socketIO-client-nexus
+
+    pour lancer le script
+        python3 le-nom-du-script.py
+    
+Utilisation:
+    simplejson:
+        import simplejson as json
+        
+        json.loads() # pour depackage le json equivalent de JSON.parse() en js
+        
+        json.dumps() # pour package les variables equivalent de JSON.stringify() en js
+        
+    socketio:
+        from socketIO_client_nexus import socketIO
+        
+        connexion = socketIO('adresse', PORT)
+        connexion.on('nomDeReception', fonction) # pour les reception
+        connexion.emit('nomDenvoi', contenu) # pour envoyer au server
