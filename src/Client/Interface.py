@@ -1,6 +1,7 @@
 import tkinter as tk
 import Client
 import connexionNodeJS
+import locale
 
 class Interface(tk.Frame):
 
@@ -9,7 +10,7 @@ class Interface(tk.Frame):
 
     connexion = False
     adresseServeur = ""
-    LANGUAGE = locale.getdefaultlocale()[0]
+    LANGAGE = locale.getdefaultlocale()[0].split('_')[0]
 
     def __init__(self, fenetre, **kwargs):
         tk.Frame.__init__(self, fenetre, width=768, height=576, **kwargs)
@@ -17,13 +18,13 @@ class Interface(tk.Frame):
         self.nb_clic = 0
 
         # Creation de nos widgets
-        self.boutonConnexion = tk.Button(self, text=_("Connexion"), command = self.connexionBouee)
+        self.boutonConnexion = tk.Button(self, text=self._("Connexion"), command = self.connexionBouee)
         self.boutonConnexion.pack()
 
-        self.boutonTelechargement = tk.Button(self, text=_("Telechargement"), command = self.recuperationDonnee, state="disabled")
+        self.boutonTelechargement = tk.Button(self, text=self._("Telechargement"), command = self.recuperationDonnee, state="disabled")
         self.boutonTelechargement.pack()
 
-        self.boutonTeleversement = tk.Button(self, text=_("Televersement"), command = self.envoieDonnee, state="disabled")
+        self.boutonTeleversement = tk.Button(self, text=self._("Televersement"), command = self.envoieDonnee, state="disabled")
         self.boutonTeleversement.pack()
 
 
@@ -52,18 +53,19 @@ class Interface(tk.Frame):
         connexionNodeJS.on_send()
 
 
-    def _(s):
+    def _(self, s):
+
         spanishStrings = {'Connexion': 'Conexión', 'Telechargement': 'Descargar', 'Televersement': 'Subir'}
         englishStrings = {'Connexion': 'Connection', 'Telechargement': 'Download', 'Televersement': 'Uploading'}
         germanStrings = {'Connexion': 'Verbindung', 'Telechargement': 'Herunterladen', 'Televersement': 'Hochladen'}
 
-        if LANGUAGE == 'French':
+        if self.LANGAGE == 'fr':
             return s
-        if LANGUAGE == 'Spanish':
+        if self.LANGAGE == 'es':
             return spanishStrings[s]
-        if LANGUAGE == 'English':
+        if self.LANGAGE == 'en':
             return englishStrings[s]
-        if LANGUAGE == 'German':
+        if self.LANGAGE == 'de':
             return germanStrings[s]
 
 
