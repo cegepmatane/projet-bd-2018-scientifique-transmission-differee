@@ -18,13 +18,13 @@ class Interface(tk.Frame):
         self.nb_clic = 0
 
         # Creation de nos widgets
-        self.boutonConnexion = tk.Button(self, text=self._("Connexion"), command = self.connexionBouee)
+        self.boutonConnexion = tk.Button(self, text=self._("Connection"), command = self.connexionBouee)
         self.boutonConnexion.pack()
 
-        self.boutonTelechargement = tk.Button(self, text=self._("Telechargement"), command = self.recuperationDonnee, state="disabled")
+        self.boutonTelechargement = tk.Button(self, text=self._("Download"), command = self.recuperationDonnee, state="disabled")
         self.boutonTelechargement.pack()
 
-        self.boutonTeleversement = tk.Button(self, text=self._("Televersement"), command = self.envoieDonnee, state="disabled")
+        self.boutonTeleversement = tk.Button(self, text=self._("Uploading"), command = self.envoieDonnee, state="disabled")
         self.boutonTeleversement.pack()
 
 
@@ -55,16 +55,16 @@ class Interface(tk.Frame):
 
     def _(self, s):
 
-        spanishStrings = {'Connexion': 'Conexión', 'Telechargement': 'Descargar', 'Televersement': 'Subir'}
-        englishStrings = {'Connexion': 'Connection', 'Telechargement': 'Download', 'Televersement': 'Uploading'}
-        germanStrings = {'Connexion': 'Verbindung', 'Telechargement': 'Herunterladen', 'Televersement': 'Hochladen'}
+        spanishStrings = {'Connection': 'Conexión', 'Download': 'Descargar', 'Uploading': 'Subir'}
+        frenchStrings = {'Connection': 'Connection', 'Download': 'Telechargement', 'Uploading': 'Televersement'}
+        germanStrings = {'Connection': 'Verbindung', 'Download': 'Herunterladen', 'Uploading': 'Hochladen'}
 
-        if self.LANGAGE == 'fr':
+        if self.LANGAGE == 'en':
             return s
         if self.LANGAGE == 'es':
             return spanishStrings[s]
-        if self.LANGAGE == 'en':
-            return englishStrings[s]
+        if self.LANGAGE == 'fr':
+            return frenchStrings[s]
         if self.LANGAGE == 'de':
             return germanStrings[s]
 
