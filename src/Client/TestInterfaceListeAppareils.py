@@ -12,39 +12,38 @@ global fenetreListeAppareils
 #---------------------------------------------------------------#
 fenetrePrincipale = Tk()
 fenetrePrincipale.title('Transmission differee')
-#fenetrePrincipale.pack_propagate(0)
 fenetrePrincipale.geometry("300x150")
 fenetrePrincipale.resizable(0,0)
 
 framePrincipale = Frame(master=fenetrePrincipale,bg='grey')
 framePrincipale.pack_propagate(0)
 framePrincipale.pack(fill=BOTH, expand=True)
-
 #---------------------------------------------------------------#
-fenetreListeAppareils = Tk()
-fenetreListeAppareils.title("Liste appareils")
-
-frameListeAppareils = Frame(master=fenetreListeAppareils,bg='grey')
-frameListeAppareils.pack_propagate(0)
-frameListeAppareils.pack(fill=BOTH, expand=True)
-
 ListeAppareils = []
 listeAdresse = []
-#---------------------------------------------------------------#
 
+#---------------------------------------------------------------#
 def afficherListeAppareils():
     global ListeAppareils
     global listeAdresse
     global fenetreListeAppareils
 
+    fenetreListeAppareils = Tk()
+    fenetreListeAppareils.title("Liste appareils")
+
+    frameListeAppareils = Frame(master=fenetreListeAppareils,bg='grey')
+    frameListeAppareils.pack_propagate(0)
+    frameListeAppareils.pack(fill=BOTH, expand=True)
+
     for ligne in range(len(ListeAppareils)):
         for colonne in range(2):
             Label(frameListeAppareils, text='[%s]' % ', '.join(map(str, ListeAppareils[ligne])),borderwidth=1).grid(row=ligne, column=1,padx=5,pady=5)
             Button(frameListeAppareils, text='Se connecter',command=lambda address=ligne: seConnecter(listeAdresse[address])).grid(row=ligne, column=2,padx=5,pady=5)
+
     fenetreListeAppareils.protocol("WM_DELETE_WINDOW", on_closing)
     fenetreListeAppareils.mainloop()
-#--------------------------------------------------------------------------#
 
+#--------------------------------------------------------------------------#
 def on_closing():
     global listeAdresse
     if messagebox.askokcancel("Quitter","Fermer la liste des appareils ?"):
@@ -52,9 +51,9 @@ def on_closing():
         boutonConnexion.config(state="disabled")
         listeAdresse.clear()
         print('Liste adresses :', listeAdresse)
+
+
 #-------------------------------------------------------------------------------#
-
-
 def listerAppareils():
     global ListeAppareils
     global listeAdresse
