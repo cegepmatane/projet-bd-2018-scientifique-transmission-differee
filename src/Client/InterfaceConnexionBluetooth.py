@@ -6,11 +6,15 @@ import sys
 import locale
 from tkinter import messagebox
 from tkinter import Label
+import json
+from socketIO_client_nexus import SocketIO, LoggingNamespace
 
 global ListeAppareils
 global listeAdresse
 global fenetreListeAppareils
 global langage
+global sock
+global data
 
 langage = locale.getdefaultlocale()[0].split('_')[0]
 print(langage)
@@ -85,6 +89,7 @@ def listerAppareils():
 def seConnecter(addresse):
     global fenetreListeAppareils
     global listeAdresse
+    global sock
 
     listeAdresse.clear()
     print('Liste adresses :', listeAdresse)  
@@ -96,25 +101,48 @@ def seConnecter(addresse):
     port = 3
 
     sock = BluetoothSocket(RFCOMM)
-    sock.connect((addresse, port))
+    sock.connect((addresse, port)) 
 
-    while True :
-        print("Connecte !")
-        sock.send("Bonjour monde !")
-        print("Message envoye !")
-        data = sock.recv(1024)
-        print ('Reception : ', data.decode())
+    print("Connecte !")
+    boutonTelecharger.config(state="normal")    
 
+#----------------------------------------------------------------------#
+def telechargerLesDonnees():
+    global sock
+    global data
+
+    sock.send("pret a envoyer")
+
+    data = sock.recv(1024)
+    print ('Reception : ', data.decode())
 
     sock.close()
+    boutonTeleverser.config(state="normal")
+#----------------------------------------------------------------------#
+def envoyerDonneesAuServeur():
+    global data
+    donneeNonFormatee = data.decode()
+    #donneeFormatee = json.dumps(donneeNonFormatee)
+    print(donneeNonFormatee)
 
-    """while True :
-        message = raw_input('Envoyer :')
-        if not message : break
-        sock.send(message)
-        data = sock.recv(1024)
-        print ('Reception : ', data)
-    sock.close()"""
+    connection = SocketIO('vps202433.vps.ovh.ca', 8080, LoggingNamespace)
+    #connection = SocketIO('vps202845.vps.ovh.ca', 8080, LoggingNamespace)
+    connection.on('salutation', lors_connection)
+    connection.on('donnee_recu',on_send)  
+
+    connection.emit('deverser-donnees-bouee', donneeNonFormatee) #envoie du json
+
+    print("sent")
+    connection.disconnect()  
+    
+
+def lors_connection(msg):
+	print(json.loads(msg))
+
+def on_send():
+    print("data sent")
+
+
 #----------------------------------------------------------------------#
 #Changement langue 
 def changementLangue(s):
@@ -145,10 +173,10 @@ boutonRechercher.pack(padx=5,pady=5)
 boutonConnexion = Button(master=framePrincipale,text=changementLangue("Choose a device"), command = afficherListeAppareils, state="disabled")
 boutonConnexion.pack(padx=5,pady=5)
 
-boutonTelecharger = Button(master=framePrincipale,text=changementLangue("Download data"), state="disabled")
+boutonTelecharger = Button(master=framePrincipale,text=changementLangue("Download data"), command = telechargerLesDonnees, state="disabled")
 boutonTelecharger.pack(padx=5,pady=5)
 
-boutonTeleverser = Button(master=framePrincipale,text=changementLangue("Upload data"), state="disabled")
+boutonTeleverser = Button(master=framePrincipale,text=changementLangue("Upload data"), command = envoyerDonneesAuServeur, state="disabled")
 boutonTeleverser.pack(padx=5,pady=5)
 
 fenetrePrincipale.mainloop()
